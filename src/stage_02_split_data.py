@@ -9,8 +9,6 @@ def split_and_save(config_path, params_path):
     config = read_yaml(config_path)
     params = read_yaml(params_path)
     
-    #Saving dataset in local to artifacts
-    #create path to directory: artifacts/raw_local_dir/data.csv
     artifacts_dir = config['artifacts']['artifacts_dir']
     raw_local_dir = config['artifacts']['raw_local_dir']
     raw_local_file = config['artifacts']['raw_local_file']
@@ -45,5 +43,6 @@ if __name__ == '__main__':
 
     parsed_args = args.parse_args()
     
-    # Calling get_data function
+    # Calling split_and_save function
     split_and_save(config_path = parsed_args.config, params_path = parsed_args.params)
+
