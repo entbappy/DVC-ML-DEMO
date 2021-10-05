@@ -10,8 +10,8 @@ stages:
       md5: 9f52c9a9fe89b1ca3c4bc7876bbbb045
       size: 1108
     - path: src/utils/all_utils.py
-      md5: f34a7024db2d0ff201065296575c98d4
-      size: 498
+      md5: dd6608c8a3e314435aed7759830c9f01
+      size: 718
     outs:
     - path: artifacts/raw_local_dir/data.csv
       md5: 7d814a1bda02145efe703f4e1c01847a
@@ -19,6 +19,9 @@ stages:
   split_data:
     cmd: python src/stage_02_split_data.py --config=config/config.yaml --params=params.yaml
     deps:
+    - path: artifacts/raw_local_dir/data.csv
+      md5: 7d814a1bda02145efe703f4e1c01847a
+      size: 93599
     - path: config/config.yaml
       md5: 398455517bac9f91749a6f05017f9d26
       size: 396
@@ -26,8 +29,8 @@ stages:
       md5: 6ae4fa6cc661f957d677a8345b3febbe
       size: 1797
     - path: src/utils/all_utils.py
-      md5: f34a7024db2d0ff201065296575c98d4
-      size: 498
+      md5: dd6608c8a3e314435aed7759830c9f01
+      size: 718
     params:
       params.yaml:
         base.random_state: 42
@@ -52,8 +55,8 @@ stages:
       md5: 1592a3b84b7acbf65e0dee7c2eab3e6a
       size: 1767
     - path: src/utils/all_utils.py
-      md5: f34a7024db2d0ff201065296575c98d4
-      size: 498
+      md5: dd6608c8a3e314435aed7759830c9f01
+      size: 718
     params:
       params.yaml:
         base.random_state: 42
@@ -63,3 +66,25 @@ stages:
     - path: artifacts/model_dir/ElasticNet.model
       md5: cf972b0487ac1a1d8244e3daf72ff18f
       size: 1314
+  evaluate:
+    cmd: python src/stage_04_evaluate.py --config=config/config.yaml --params=params.yaml
+    deps:
+    - path: artifacts/model_dir/ElasticNet.model
+      md5: cf972b0487ac1a1d8244e3daf72ff18f
+      size: 1314
+    - path: artifacts/split_data_dir/test.csv
+      md5: 3a3eef9f920deae72cb9bcd7b91231f1
+      size: 28169
+    - path: config/config.yaml
+      md5: 398455517bac9f91749a6f05017f9d26
+      size: 396
+    - path: src/stage_04_evaluate.py
+      md5: cba82cb2396844c5702a10d9a0ec571c
+      size: 2130
+    - path: src/utils/all_utils.py
+      md5: dd6608c8a3e314435aed7759830c9f01
+      size: 718
+    outs:
+    - path: artifacts/reports_dir/scores.json
+      md5: 0c5d4198364b857d9f249c16463c99d8
+      size: 100
